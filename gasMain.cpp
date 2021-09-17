@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
 
 	//help argument
 	if (argString == "-h" || argString == "--help") {
-		std::cout << "Run this program with -v or --version for version information \nRun this program"
+		std::cout << "Run this program with -v or --version for version information \nRun this program "
 			<< "with - i or --input to specify input file / folder name" << std::endl;
 	}
 
