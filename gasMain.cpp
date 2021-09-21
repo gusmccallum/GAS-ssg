@@ -6,24 +6,28 @@
 #include <direct.h>
 
 
+static void processText(std::string fileName, int fileType);
+static void newFolder();
+
+
 int main(int argc, char** argv) {
 
-	std::string argString = argv[1];
+	std::string cliString = argv[1];
 
 	//validate input
 	bool argFlag = false;
-	if (argString.length() < 2 && argString != "-v" && argString != "--version" && argString != "-h" && argString != "--help" && argString != "-i" && argString != "--input") {
+	if (cliString.length() < 2 && cliString != "-v" && cliString != "--version" && cliString != "-h" && cliString != "--help" && cliString != "-i" && cliString != "--input") {
 		while (argFlag == false) {
 			std::cout << "Invalid entry. Please re-enter selection." << std::endl;
-			std::cin >> argString;
-			if (argString.length() >= 2 && (argString == "-v" || argString == "--version" || argString == "-h" || argString == "--help" || argString == "-i" || argString == "--input")) {
+			std::cin >> cliString;
+			if (cliString.length() >= 2 && (cliString == "-v" || cliString == "--version" || cliString == "-h" || cliString == "--help" || cliString == "-i" || cliString == "--input")) {
 				argFlag = true;
 			}
 		}
 	}
 
 	//version argument
-	if (argString == "-v" || argString == "--version") {
+	if (cliString == "-v" || cliString == "--version") {
 		std::cout << "********************************\n" <<
 			"********************************\n" <<
 			"****                        ****\n" <<
@@ -34,140 +38,120 @@ int main(int argc, char** argv) {
 	}
 
 	//help argument
-	if (argString == "-h" || argString == "--help") {
+	if (cliString == "-h" || cliString == "--help") {
 		std::cout << "Run this program with -v or --version for version information \nRun this program "
 			<< "with - i or --input to specify input file / folder name" << std::endl;
 	}
 
 	//input argument
-	if (argString == "-i" || argString == "--input") {
-		argFlag = false;
-		std::string argString2 = "";
+	if (cliString == "-i" || cliString == "--input") {
+		std::string fileNameString = "";
 		if (argc > 3) {
 			//concatenate argument words for file input & output
 			for (int i = 2; i < argc - 1; i++) {
-				argString2 += argv[i];
-				argString2 += " ";
+				fileNameString += argv[i];
+				fileNameString += " ";
 			}
-			argString2 += (argv[argc - 1]);
+			fileNameString += (argv[argc - 1]);
 		}
 
 		else {
-			argString2 = argv[2];
+			fileNameString = argv[2];
 		}
 
-		if (argString2.find(".txt") != std::string::npos) {
-			std::ifstream inFile(argString2);
+		//text file input
+		if (fileNameString.find(".txt") != std::string::npos) {
+			std::ifstream inFile(fileNameString);
 			if (!inFile)
 			{
 				inFile.close();
 			}
-
-			//text file input and output 
-			std::filesystem::remove_all("./dist");
-			if (_mkdir("./dist") != 0) {
-			std::cout << "Error creating ./dist folder." << std::endl;
+			else {
+				newFolder();
+				processText(fileNameString, 1);
 			}
-			std::ofstream outFile("./dist/" + argString2.substr(0, argString2.find(".")) + ".html");
-			if (outFile) {
-				
-				outFile << " <!DOCTYPE html>" << '\n' << "<html>" << '\n' << "<head>";
-				
-				//get Title
-				std::string line1 = "";
-				std::string line2 = "";
-				std::string line3 = "";
 
-				std::getline(inFile, line1);
-				std::getline(inFile, line2);
-				std::getline(inFile, line3);
-
-				//Set title if present
-				if (line1 != "" && line2 == "" && line3 == "") {
-					outFile << " <title> " << line1 << "</title>" << '\n';
-				}
-
-				outFile << "<body>" << '\n' << "<h1> " << line1 << "</h1>";
-				std::string inLine = "";
-				std::string lastLine = "";
-				outFile << '\n' << "</head>" << '\n' << "<body>" << '\n';
-				while (std::getline(inFile, inLine)) {
-
-					if (inLine != "" && lastLine == "") {
-						outFile << "<p> " << '\n' << inLine << '\n';
-					}
-					else if (inLine == "" && lastLine != "") {
-						outFile << " </p>" << '\n';
-					}
-					else {
-						outFile << inLine << "\n";
-					}
-					lastLine = inLine;
-				}
-				outFile << " </body>" << '\n' << "</html>";
-
-			}
 		}
 		else {
 			//folder input
-			std::filesystem::remove_all("./dist");
-
-			if (_mkdir("./dist") != 0) {
-				std::cout << "Error creating ./dist folder." << std::endl;
-			}
-
-			argString2 = argv[2];
-
-			for (const auto& dirItem : std::filesystem::recursive_directory_iterator(argString2)) {
+			newFolder();
+			for (const auto& dirItem : std::filesystem::recursive_directory_iterator(fileNameString)) {
 				std::string path = dirItem.path().string();
-				std::ifstream inFile(path);
-				if (!inFile) {
-					inFile.close();
-				}
-				else {
-					path = path.erase(0, path.find_last_of("\\") + 1);
-					path = path.substr(0, path.find("."));
-					std::ofstream outFile("./dist/" + path + ".html");
-					if (outFile) {
-						outFile << " <!DOCTYPE html> <html> <br> <head>" << '\n';
-						//get Title
-						std::string line1 = "";
-						std::string line2 = "";
-						std::string line3 = "";
-
-						std::getline(inFile, line1);
-						std::getline(inFile, line2);
-						std::getline(inFile, line3);
-
-						//Set title if present
-						if (line1 != "" && line2 == "" && line3 == "") {
-							outFile << " <title> " << line1 << "</title>" << '\n';
-						}
-
-						std::string inLine = "";
-						std::string lastLine = "";
-						outFile << "</head>" << '\n' << "<body>" << '\n' << "<h1> " << line1 << "</h1>" << '\n';
-						while (std::getline(inFile, inLine)) {
-
-							if (inLine != "" && lastLine == "") {
-								outFile << "<p> " << '\n' << inLine << '\n';
-							}
-							else if (inLine == "" && lastLine != "") {
-								outFile << " </p>" << '\n';
-							}
-							else {
-								outFile << inLine << "\n";
-							}
-							lastLine = inLine;
-						}
-
-						outFile << " </body>" << '\n' << "</html>";
-					}
-
+				if (path.find(".txt") != std::string::npos) {
+					processText(path, 2);
 				}
 			}
 		}
+	}
+}
+
+static void processText(std::string fileName, int fileType) {
+	std::string outFileName = "";
+	//open input file
+	std::ifstream inFile(fileName);
+	if (!inFile) {
+		inFile.close();
+	}
+	if (fileType == 1) { //.txt input
+		outFileName = fileName;
+		outFileName = outFileName.substr(0, outFileName.find("."));
+	}
+	else if (fileType == 2) { //folder input
+		outFileName = fileName;
+		outFileName = outFileName.erase(0, outFileName.find_last_of("\\") + 1);
+		outFileName = outFileName.substr(0, outFileName.find("."));
+	}
+	//open output file
+	outFileName = "./dist/" + outFileName + ".html";
+	std::ofstream outFile(outFileName);
+	if (outFile) {
+
+		outFile << " <!DOCTYPE html> <html> <br> <head>" << '\n';
+		//get Title
+		std::string line1 = "";
+		std::string line2 = "";
+		std::string line3 = "";
+
+		std::getline(inFile, line1);
+		std::getline(inFile, line2);
+		std::getline(inFile, line3);
+
+		//Set title if present
+		if (line1 != "" && line2 == "" && line3 == "") {
+			outFile << " <title> " << line1 << "</title>" << '\n';
+		}
+
+		std::string inLine = "";
+		std::string lastLine = "";
+		outFile << "</head>" << '\n' << "<body>" << '\n' << "<h1> " << line1 << "</h1>" << '\n';
+		while (std::getline(inFile, inLine)) {
+
+			if (inLine != "" && lastLine == "") {
+				outFile << "<p> " << '\n' << inLine << '\n';
+			}
+			else if (inLine == "" && lastLine != "") {
+				outFile << " </p>" << '\n';
+			}
+			else {
+				outFile << inLine << "\n";
+			}
+			lastLine = inLine;
+		}
+		inFile.close();
+		outFile << " </body>" << '\n' << "</html>";
+		outFile.close();
 
 	}
+	else {
+		std::cout << "Error creating output file." << std::endl;
+	}
 
+}
+
+static void newFolder() {
+	//create or recreate folder
+	std::filesystem::remove_all("./dist");
+	if (_mkdir("./dist") != 0) {
+		std::cout << "Error - folder creation unsuccessful." << std::endl;
+	}
 }
