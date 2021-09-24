@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
 			newFolder();
 			for (const auto& dirItem : std::filesystem::recursive_directory_iterator(fileNameString)) {
 				std::string path = dirItem.path().string();
-				if (path.find(".txt") != std::string::npos) {
+				if (path.find(".txt") != std::string::npos || path.find(".md") != std::string::npos) {
 					processText(path, 3);
 				}
 			}
@@ -105,11 +105,7 @@ static void processText(std::string fileName, int fileType) {
 	if (!inFile) {
 		inFile.close();
 	}
-	if (fileType == 1) { //.txt input
-		outFileName = fileName;
-		outFileName = outFileName.substr(0, outFileName.find("."));
-	}
-	else if (fileType == 2) { //.md input
+	if (fileType == 1 || fileType == 2) { //.txt input or .md input
 		outFileName = fileName;
 		outFileName = outFileName.substr(0, outFileName.find("."));
 	}
