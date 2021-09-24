@@ -19,4 +19,4 @@ Instructions:
 -Will convert any txt or md files to html or recursively search through folders to find txt/md files to convert to html (Optional feature 1)
 -Files will be placed in ./dist/ folder, will overwrite existing ./dist/ folder
 -Title will be generated if first line is followed by two blank lines (Optional feature 2)
--If file is markdown file, "# " syntax will turn line into a <h1>
+-If file is markdown file, "# " syntax will turn line into a \<h1>
