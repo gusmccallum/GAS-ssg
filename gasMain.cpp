@@ -1,14 +1,11 @@
 #include <filesystem>
 #include <iostream>
 #include <iomanip>
-#include <string>
 #include <fstream>
 #include <direct.h>
 
 
-static void processText(std::string fileName, int fileType);
-static void newFolder();
-std::string makeHeader1(std::string line);
+#include "gasHeader.h"
 
 int main(int argc, char** argv) {
 
@@ -17,13 +14,8 @@ int main(int argc, char** argv) {
 	//validate input
 	bool argFlag = false;
 	if (cliString.length() < 2 && cliString != "-v" && cliString != "--version" && cliString != "-h" && cliString != "--help" && cliString != "-i" && cliString != "--input") {
-		while (argFlag == false) {
-			std::cout << "Invalid entry. Please re-enter selection." << std::endl;
-			std::cin >> cliString;
-			if (cliString.length() >= 2 && (cliString == "-v" || cliString == "--version" || cliString == "-h" || cliString == "--help" || cliString == "-i" || cliString == "--input")) {
-				argFlag = true;
-			}
-		}
+		std::cout << "Invalid entry." << std::endl;
+		return -1;		
 	}
 
 	//version argument
@@ -65,6 +57,7 @@ int main(int argc, char** argv) {
 			if (!inFile)
 			{
 				inFile.close();
+				return -1;
 			}
 			else {
 				newFolder();
@@ -78,6 +71,7 @@ int main(int argc, char** argv) {
 			if (!inFile)
 			{
 				inFile.close();
+				return -1;
 			}
 			else {
 				newFolder();
@@ -95,6 +89,7 @@ int main(int argc, char** argv) {
 			}
 		}
 	}
+	return 0;
 }
 
 static void processText(std::string fileName, int fileType) {
@@ -169,10 +164,11 @@ static void processText(std::string fileName, int fileType) {
 		inFile.close();
 		outFile << " </body>" << '\n' << "</html>";
 		outFile.close();
-
+		
 	}
 	else {
 		std::cout << "Error creating output file." << std::endl;
+		
 	}
 
 }
@@ -183,6 +179,7 @@ std::string makeHeader1(std::string line) {
 	newLine = "<h1>" + newLine + "</h1>";
 	return newLine;
 }
+
 
 static void newFolder() {
 	//create or recreate folder
