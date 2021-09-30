@@ -9,10 +9,14 @@
 
 int main(int argc, char** argv) {
 
+	if (argc < 1) {
+		//Empty argument list
+		return -1;
+	}
+
 	std::string cliString = argv[1];
 
 	//validate input
-	bool argFlag = false;
 	if (cliString.length() < 2 && cliString != "-v" && cliString != "--version" && cliString != "-h" && cliString != "--help" && cliString != "-i" && cliString != "--input") {
 		std::cout << "Invalid entry." << std::endl;
 		return -1;		
@@ -83,8 +87,11 @@ int main(int argc, char** argv) {
 			newFolder();
 			for (const auto& dirItem : std::filesystem::recursive_directory_iterator(fileNameString)) {
 				std::string path = dirItem.path().string();
-				if (path.find(".txt") != std::string::npos || path.find(".md") != std::string::npos) {
-					processText(path, 3);
+				if (path.find(".txt") != std::string::npos) {
+					processText(path, 1);
+				}
+				else if (path.find(".md") != std::string::npos) {
+					processText(path, 2);
 				}
 			}
 		}
@@ -100,15 +107,18 @@ static void processText(std::string fileName, int fileType) {
 	if (!inFile) {
 		inFile.close();
 	}
-	if (fileType == 1 || fileType == 2) { //.txt input or .md input
-		outFileName = fileName;
-		outFileName = outFileName.substr(0, outFileName.find("."));
-	}
-	else if (fileType == 3) { //folder input
+	//folder input
+	if (fileName.find("\\") != std::string::npos) { 
 		outFileName = fileName;
 		outFileName = outFileName.erase(0, outFileName.find_last_of("\\") + 1);
 		outFileName = outFileName.substr(0, outFileName.find("."));
 	}
+	//txt or md input
+	else {
+		outFileName = fileName;
+		outFileName = outFileName.substr(0, outFileName.find("."));
+	}
+
 	title = outFileName;
 	//open output file
 	outFileName = "./dist/" + outFileName + ".html";
