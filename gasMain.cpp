@@ -1,14 +1,11 @@
 #include <filesystem>
 #include <iostream>
 #include <iomanip>
-#include <string>
 #include <fstream>
 #include <direct.h>
 
 
-static void processText(std::string fileName, int fileType);
-static void newFolder();
-std::string makeHeader1(std::string line);
+#include "gasHeader.h"
 
 int main(int argc, char** argv) {
 
@@ -17,13 +14,7 @@ int main(int argc, char** argv) {
 	//validate input
 	bool argFlag = false;
 	if (cliString.length() < 2 && cliString != "-v" && cliString != "--version" && cliString != "-h" && cliString != "--help" && cliString != "-i" && cliString != "--input") {
-		while (argFlag == false) {
-			std::cout << "Invalid entry. Please re-enter selection." << std::endl;
-			std::cin >> cliString;
-			if (cliString.length() >= 2 && (cliString == "-v" || cliString == "--version" || cliString == "-h" || cliString == "--help" || cliString == "-i" || cliString == "--input")) {
-				argFlag = true;
-			}
-		}
+		std::cout << "Invalid entry." << std::endl;	
 	}
 
 	//version argument
@@ -95,6 +86,7 @@ int main(int argc, char** argv) {
 			}
 		}
 	}
+	return 0;
 }
 
 static void processText(std::string fileName, int fileType) {
@@ -153,6 +145,10 @@ static void processText(std::string fileName, int fileType) {
 				if ((inLine.substr(0,2).find("# ") != std::string::npos)) {
 					inLine = makeHeader1(inLine);
 				}
+				//Check for Horizontal rule syntax
+				if (inLine.find("---") != std::string::npos) {
+					inLine = hzRule(inLine);
+				}
 			}
 
 			if (inLine != "" && lastLine == "") {
@@ -169,10 +165,11 @@ static void processText(std::string fileName, int fileType) {
 		inFile.close();
 		outFile << " </body>" << '\n' << "</html>";
 		outFile.close();
-
+		
 	}
 	else {
 		std::cout << "Error creating output file." << std::endl;
+		
 	}
 
 }
@@ -182,6 +179,11 @@ std::string makeHeader1(std::string line) {
 	newLine.erase(0, 2);
 	newLine = "<h1>" + newLine + "</h1>";
 	return newLine;
+}
+
+std::string hzRule(std::string line) {
+	line.replace(line.find("---"), 3, "<hr>");
+	return line;
 }
 
 static void newFolder() {
