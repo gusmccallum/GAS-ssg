@@ -14,7 +14,8 @@ int main(int argc, char** argv) {
 	//validate input
 	bool argFlag = false;
 	if (cliString.length() < 2 && cliString != "-v" && cliString != "--version" && cliString != "-h" && cliString != "--help" && cliString != "-i" && cliString != "--input") {
-		std::cout << "Invalid entry." << std::endl;	
+		std::cout << "Invalid entry." << std::endl;
+		return -1;		
 	}
 
 	//version argument
@@ -56,6 +57,7 @@ int main(int argc, char** argv) {
 			if (!inFile)
 			{
 				inFile.close();
+				return -1;
 			}
 			else {
 				newFolder();
@@ -69,6 +71,7 @@ int main(int argc, char** argv) {
 			if (!inFile)
 			{
 				inFile.close();
+				return -1;
 			}
 			else {
 				newFolder();
