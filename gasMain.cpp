@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
 	}
 	if (cliString == "-c" || cliString == "--config"){
 		std::string input = argv[2];
-		if (input.find(".json") < input.size()){
+		if (isJson(input)){
 			processJsonFormat(input);
 		}else{
 			std::cout << "Invalid entry." << std::endl;
@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
 			}
 
 			//text file input
-			if (fileNameString.find(".txt") != std::string::npos) {
+			if (isText(fileNameString)) {
 				std::ifstream inFile(fileNameString);
 				if (!inFile)
 				{
@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
 
 			}
 			//md file input
-			else if (fileNameString.find(".md") != std::string::npos) {
+			else if (isMarkDown(fileNameString)) {
 				std::ifstream inFile(fileNameString);
 				if (!inFile)
 				{
@@ -91,15 +91,15 @@ int main(int argc, char** argv) {
 					processText(fileNameString, 2);
 				}
 			}
-			else {
+			else if (isFolder(fileNameString)){
 				//folder input
 				newFolder();
 				for (const auto& dirItem : std::filesystem::recursive_directory_iterator(fileNameString)) {
 					std::string path = dirItem.path().string();
-					if (path.find(".txt") != std::string::npos) {
+					if (isText(path)) {
 						processText(path, 1);
 					}
-					else if (path.find(".md") != std::string::npos) {
+					else if (isMarkDown(path)) {
 						processText(path, 2);
 					}
 				}
@@ -211,6 +211,40 @@ std::string makeHeader1(std::string inLine) {
 std::string hzRule(std::string inLine) {
 	inLine.replace(inLine.find("---"), 3, "<hr>");
 	return inLine;
+}
+
+bool isText(std::string inLine) {
+	if (inLine.find(".txt") != std::string::npos) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+bool isMarkDown(std::string inLine) {
+	if (inLine.find(".md") != std::string::npos) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+bool isFolder(std::string inLine) {
+	if (inLine.find(".txt") == std::string::npos && inLine.find(".md") == std::string::npos) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool isJson(std::string inLine) {
+	if (inLine.find(".json") != std::string::npos) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 static void newFolder(std::string folder) {
