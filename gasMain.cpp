@@ -230,7 +230,8 @@ bool isMarkDown(std::string inLine) {
 	}
 }
 bool isFolder(std::string inLine) {
-	if (inLine.find(".txt") == std::string::npos && inLine.find(".md") == std::string::npos) {
+	const std::filesystem::path folderPath = inLine;
+	if (std::filesystem::is_directory(symlink_status(folderPath))) {
 		return true;
 	}
 	else {
@@ -314,10 +315,10 @@ void processJsonFormat(std::string inFile){
 			newFolder(output);
 			for (const auto& dirItem : std::filesystem::recursive_directory_iterator(fileNameString)) {
 				std::string path = dirItem.path().string();
-				if (path.find(".txt") != std::string::npos) {
+				if (isText(path)) {
 					processText(path, 1, stylesheet, lang, output);
 				}
-				else if (path.find(".md") != std::string::npos) {
+				else if (isMarkDown(path)) {
 					processText(path, 2, stylesheet, lang, output);
 				}
 			}
