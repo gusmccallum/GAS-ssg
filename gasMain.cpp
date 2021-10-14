@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
 			std::cout << "********************************\n" <<
 				"********************************\n" <<
 				"****                        ****\n" <<
-				"****  Gus' Awesome Ssg V0.1 ****\n" <<
+				"****  Gus' Awesome Ssg V0.4 ****\n" <<
 				"****                        ****\n" <<
 				"********************************\n"
 				"********************************" << std::endl;
@@ -109,23 +109,23 @@ int main(int argc, char** argv) {
 	return 0;
 }
 
-static void processText(std::string fileName, int fileType, std::string stylesheet, std::string lang, std::string folderOutput) {
+static void processText(std::string inFileName, int inFileType, std::string stylesheet, std::string lang, std::string folderOutput) {
 	std::string outFileName = "";
 	std::string title = "";
 	//open input file
-	std::ifstream inFile(fileName);
+	std::ifstream inFile(inFileName);
 	if (!inFile) {
 		inFile.close();
 	}
 	//folder input
-	if (fileName.find("\\") != std::string::npos) { 
-		outFileName = fileName;
+	if (inFileName.find("\\") != std::string::npos) { 
+		outFileName = inFileName;
 		outFileName = outFileName.erase(0, outFileName.find_last_of("\\") + 1);
 		outFileName = outFileName.substr(0, outFileName.find("."));
 	}
 	//txt or md input
 	else {
-		outFileName = fileName;
+		outFileName = inFileName;
 		outFileName = outFileName.substr(0, outFileName.find("."));
 	}
 
@@ -141,7 +141,7 @@ static void processText(std::string fileName, int fileType, std::string styleshe
 		if(stylesheet != "")
 			outFile << "<link rel='stylesheet' href='" << stylesheet <<"'>";
 		//.txt file title/header
-		if (fileType == 1) {
+		if (inFileType == 1) {
 			//get Title
 			std::string line1 = "";
 			std::string line2 = "";
@@ -159,35 +159,35 @@ static void processText(std::string fileName, int fileType, std::string styleshe
 			outFile << "</head>" << '\n' << "<body>" << '\n' << "<h1> " << line1 << "</h1>" << '\n';
 		}
 		//.md file title
-		else if (fileType == 2) {
+		else if (inFileType == 2) {
 			outFile << " <title> " << title << "</title>" << '\n';
 			outFile << "</head>" << '\n' << "<body>" << '\n';
 		}
 
-		std::string inLine = "";
+		std::string firstLine = "";
 		std::string lastLine = "";
-		while (std::getline(inFile, inLine)) {
-			if (fileType == 2) {
+		while (std::getline(inFile, firstLine)) {
+			if (inFileType == 2) {
 				//Check for Header 1 syntax
-				if ((inLine.substr(0,2).find("# ") != std::string::npos)) {
-					inLine = makeHeader1(inLine);
+				if ((firstLine.substr(0,2).find("# ") != std::string::npos)) {
+					firstLine = makeHeader1(firstLine);
 				}
 				//Check for Horizontal rule syntax
-				if (inLine.find("---") != std::string::npos) {
-					inLine = hzRule(inLine);
+				if (firstLine.find("---") != std::string::npos) {
+					firstLine = hzRule(firstLine);
 				}
 			}
 
-			if (inLine != "" && lastLine == "") {
-				outFile << "<p> " << '\n' << inLine << '\n';
+			if (firstLine != "" && lastLine == "") {
+				outFile << "<p> " << '\n' << firstLine << '\n';
 			}
-			else if (inLine == "" && lastLine != "") {
+			else if (firstLine == "" && lastLine != "") {
 				outFile << " </p>" << '\n';
 			}
 			else {
-				outFile << inLine << "\n";
+				outFile << firstLine << "\n";
 			}
-			lastLine = inLine;
+			lastLine = firstLine;
 		}
 		inFile.close();
 		outFile << " </body>" << '\n' << "</html>";
@@ -201,16 +201,16 @@ static void processText(std::string fileName, int fileType, std::string styleshe
 
 }
 
-std::string makeHeader1(std::string line) {
-	std::string newLine = line;
-	newLine.erase(0, 2);
-	newLine = "<h1>" + newLine + "</h1>";
-	return newLine;
+std::string makeHeader1(std::string inLine) {
+	std::string headerLine = inLine;
+	headerLine.erase(0, 2);
+	headerLine = "<h1>" + headerLine + "</h1>";
+	return headerLine;
 }
 
-std::string hzRule(std::string line) {
-	line.replace(line.find("---"), 3, "<hr>");
-	return line;
+std::string hzRule(std::string inLine) {
+	inLine.replace(inLine.find("---"), 3, "<hr>");
+	return inLine;
 }
 
 static void newFolder(std::string folder) {
@@ -221,15 +221,15 @@ static void newFolder(std::string folder) {
 	}
 }
 
-std::string getJsonValue(std::string line){
-    line = line.erase(0, line.find(":"));
-    line = line.erase(0, line.find("\"")+1);
-    std::string value = line.substr(0, line.find("\""));
+std::string getJsonValue(std::string inLine){
+    inLine = inLine.erase(0, inLine.find(":"));
+    inLine = inLine.erase(0, inLine.find("\"")+1);
+    std::string value = inLine.substr(0, inLine.find("\""));
     return value;
 }
 
-void processJsonFormat(std::string file){
-	std::ifstream jsonFile(file);
+void processJsonFormat(std::string inFile){
+	std::ifstream jsonFile(inFile);
 	if (jsonFile){
 		std::vector<std::string> jsonLines;
 		std::string temp;
