@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
 			std::cout << "********************************\n" <<
 				"********************************\n" <<
 				"****                        ****\n" <<
-				"****  Gus' Awesome Ssg V0.4 ****\n" <<
+				"****  Gus' Awesome Ssg V0.5 ****\n" <<
 				"****                        ****\n" <<
 				"********************************\n"
 				"********************************" << std::endl;
@@ -151,16 +151,31 @@ static void processText(std::string inFileName, int inFileType, std::string styl
 			std::getline(inFile, line2);
 			std::getline(inFile, line3);
 
+
 			//Set title if present
 			if (line1 != "" && line2 == "" && line3 == "") {
 				outFile << " <title> " << line1 << "</title>" << '\n';
+
+
+				//Set meta tag
+				outFile << " <meta> " << line1 << " </meta>" << '\n';
 			}
+
+				//Set more meta tags
+			else {
+				outFile << " <meta> " << line2 << " </meta> " << '\n' <<
+					" <meta> " << line3 << " </meta> ";
+			}
+
+
 
 			outFile << "</head>" << '\n' << "<body>" << '\n' << "<h1> " << line1 << "</h1>" << '\n';
 		}
 		//.md file title
 		else if (inFileType == 2) {
 			outFile << " <title> " << title << "</title>" << '\n';
+			//Other meta tags
+			outFile << " <meta> " << title << " </meta>" << '\n';
 			outFile << "</head>" << '\n' << "<body>" << '\n';
 		}
 
