@@ -4,7 +4,6 @@
 
 Instructions: 
 
--Compile using c++std=17 in your compiler of choice
 -Run with command line options:
    
    -i or --input to specify a file or folder to be converted
