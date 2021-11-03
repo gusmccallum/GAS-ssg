@@ -1,6 +1,6 @@
 # GAS-ssg
  Gus' Awesome SSG
-
+###################################################################################################################################################################################
 
 Instructions: 
 
@@ -18,6 +18,7 @@ Instructions:
    -v or --version to get version information
     i.e "gas -v"
     
+###################################################################################################################################################################################   
 -Will convert any txt or md files to html or recursively search through folders to find txt/md files to convert to html (Optional feature 1)
 
 -Files will be placed in ./dist/ folder, will overwrite existing ./dist/ folder
