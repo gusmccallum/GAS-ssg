@@ -3,8 +3,8 @@
 
 #include <string>
 
-
-static void processText(std::string fileName, int fileType, std::string = "", std::string = "", std::string = "./dist");
+static void processText(std::string fileName, int fileType, std::string = "",
+                        std::string = "", std::string = "./dist");
 static void newFolder(std::string = "./dist");
 bool isText(std::string inLine);
 bool isMarkDown(std::string inLine);
