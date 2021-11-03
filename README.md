@@ -9,6 +9,9 @@ Instructions:
    -i or --input to specify a file or folder to be converted
     i.e "gas -i ./folder" OR "gas --input abacus.txt"
     
+    -c or --config to set a config.json file with input and (optional) output folders
+    i.e "gas -c ssg-config.json" 
+    
    -h or --help to get info on command line arguments possible
     i.e "gas -h"
     
