@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-#include "gasHeader.h"
+#include "gasHeader.hpp"
 
 int main(int argc, char **argv) {
 
