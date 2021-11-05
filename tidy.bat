@@ -1,2 +1,2 @@
-clang-tidy --config=""  -header-filter *.h *.cpp --extra-arg=-std=c++17 --
+clang-tidy --config="" *.hpp *.cpp --extra-arg=-std=c++17 --
 PAUSE

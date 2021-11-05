@@ -1,2 +1,2 @@
-clang-format -i *.h *.cpp -style=file --verbose
+clang-format -i *.hpp *.cpp -style=file --verbose
 PAUSE
