@@ -2,14 +2,19 @@
  Gus' Awesome SSG
 #####################################################################################
 
-Instructions: 
 
--Run with command line options:
+To Contribute:
+
+-Refer to <a href="https://github.com/gusmccallum/GAS-ssg/blob/main/contributing.md>"contributing.md</a>
+
+To Use: 
+
+-Run gas.exe with command line options:
    
    -i or --input to specify a file or folder to be converted
     i.e "gas -i ./folder" OR "gas --input abacus.txt"
     
-   -c or --config to set a config.json file with input and (optional) output folders
+   -c or --config to set parameters with provided config.json file (input file/folder, output folder, HTML language and stylesheet)
     i.e "gas -c ssg-config.json" 
     
    -h or --help to get info on command line arguments possible
