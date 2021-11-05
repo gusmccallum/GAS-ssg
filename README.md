@@ -5,7 +5,7 @@
 
 To Contribute:
 
--Refer to <a href="https://github.com/gusmccallum/GAS-ssg/blob/main/contributing.md>"contributing.md</a>
+-Refer to [contributing.md](https://github.com/gusmccallum/GAS-ssg/blob/main/contributing.md)
 
 To Use: 
 
