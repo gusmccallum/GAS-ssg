@@ -1,3 +1,5 @@
+Gus' Awesome SSG #####################################################################################
+
 For contributors:
 
 [Instructions for developing with Windows/Visual Studio]
