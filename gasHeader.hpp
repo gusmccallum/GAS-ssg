@@ -10,7 +10,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "catch.hpp"
+
 
 bool processText(std::string fileName, int fileType, std::string = "",
                         std::string = "", std::string = "./dist");
