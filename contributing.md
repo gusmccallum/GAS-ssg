@@ -9,4 +9,9 @@ For contributors:
 -Run format.bat, tidy.bat and make relevant changes/re-test code before final submission     
 -OR import GASClang-settings.json in Clang Power Tools to perform linting and formatting in Visual Studio     
 -Compile using c++std=17 in your compiler of choice i.e        
-`g++ -std=c++17 gasMain.cpp gasHeader.h -o gas`   
+`g++ -std=c++17 gasMain.cpp gasHeader.hpp -o gas`   
+
+
+For testing:   
+-Compile with test.cpp i.e     
+`g++ -std=c++17 test.cpp catch.hpp gasHeader.hpp -o gas` 
