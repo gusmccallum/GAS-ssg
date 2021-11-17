@@ -42,7 +42,7 @@ TEST_CASE("isFolder() Testing", "[isfolder]") {
 	REQUIRE(isFolder("./dist") == true);
 }
 
-TEST_CASE("isMarkDown() Testing (not folder)", "[isfolder]") {
+TEST_CASE("isFolder() Testing (not folder)", "[isfolder]") {
 	REQUIRE(isFolder("The Adventure of the Speckled Band.txt") == false);
 	REQUIRE(isFolder("The Adventure of the Speckled Band.json") == false);
 }
