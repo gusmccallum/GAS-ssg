@@ -1,0 +1,19 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: compile
+      run: g++ gasMain.cpp gasHeader.hpp -o gas --std=c++17
+    - name: test
+      run: g++ test.cpp gasHeader.hpp catch.hpp --std=c++17
