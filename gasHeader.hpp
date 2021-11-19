@@ -3,13 +3,14 @@
 #define SDDS_GASHEADER_H
 
 
-#include <direct.h>
+
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <vector>
 #include <string>
+#include <exception>
 
 
 bool processText(std::string fileName, int fileType, std::string = "",
@@ -24,6 +25,8 @@ bool isMarkDown(std::string inLine);
 bool isFolder(std::string inLine);
 
 bool isJson(std::string inLine);
+
+bool testProcessText();
 
 std::string makeHeader1(std::string line);
 
@@ -193,7 +196,7 @@ bool isJson(std::string inLine) {
 bool newFolder(std::string folder) {
     // create or recreate folder
     std::filesystem::remove_all(folder);
-    if (_mkdir(folder.c_str()) != 0) {
+    if (std::filesystem::create_directory(folder) == 0) {
         std::cout << "Error - folder creation unsuccessful." << std::endl;
         return false;
     }
@@ -278,4 +281,9 @@ bool processJsonFormat(std::string inFile) {
     }
     return true;
 }
+
+bool testProcessText() {
+    return processText("The Adventure of the Speckled Band", 1);
+}
+
 #endif
