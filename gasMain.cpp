@@ -2,7 +2,6 @@
 #include "gasHeader.hpp"
 
 int main(int argc, char **argv) {
-        
 
   if (argc < 1) {
     // Empty argument list
@@ -10,7 +9,6 @@ int main(int argc, char **argv) {
   }
 
   std::string cliString = argv[1];
-
 
   // validate input
   if (cliString.length() < 2 && cliString != "-v" && cliString != "--version" &&
@@ -63,7 +61,6 @@ int main(int argc, char **argv) {
       else {
         fileNameString = argv[2];
       }
-      
 
       // text file input
       if (isText(fileNameString)) {

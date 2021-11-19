@@ -4,6 +4,9 @@
 
 TEST_CASE("processText() Testing", "[processtext]") {
 	REQUIRE(processText("The Adventure of the Speckled Band.txt", 1) == true);
+	REQUIRE(processText("./textfiles/The Adventure of the Speckled Band.txt", 1) == true);
+	REQUIRE(processText("README.md", 2) == true);
+	REQUIRE(processText("./contributing/contributing.md", 2) == true);
 }
 
 
