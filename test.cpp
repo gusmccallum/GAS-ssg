@@ -3,21 +3,20 @@
 #include "gasHeader.hpp"
 
 TEST_CASE("processText() Testing", "[processtext]") {
-	REQUIRE(processText("The Adventure of the Speckled Band", 1) == true);
+	REQUIRE(processText("The Adventure of the Speckled Band.txt", 1) == true);
 }
 
 
 TEST_CASE("newFolder() Testing", "[newfolder]") {
 	REQUIRE(newFolder() == true);
-	REQUIRE(newFolder(" ") == false);
 }
 
 TEST_CASE("makeHeader1() Testing", "[makeheader]") {
-	REQUIRE(makeHeader1("hello") == "<h1>hello</h1>");
+	REQUIRE(makeHeader1("# hello") == "<h1>hello</h1>");
 }
 
 TEST_CASE("hzRule() Testing", "[hzrule]") {
-	REQUIRE(makeHeader1("---") == "<hr>");
+	REQUIRE(hzRule("---") == "<hr>");
 }
 
 TEST_CASE("isText() Testing", "[istext]") {
@@ -37,7 +36,7 @@ TEST_CASE("isJson() Testing", "[isjson]") {
 }
 
 TEST_CASE("getJsonValue() Testing", "[getjsonvalue]") {
-	REQUIRE(getJsonValue("\"input:\" \"README.md\"") == "README.md");
+	REQUIRE(getJsonValue("input: \"README.md\"") == "README.md");
 }
 
 TEST_CASE("processJsonFormat() Testing", "[processjsonformat]") {
