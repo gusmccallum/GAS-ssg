@@ -2,6 +2,7 @@
 #ifndef SDDS_GASHEADER_H
 #define SDDS_GASHEADER_H
 
+#include <gabagool>
 #include <exception>
 #include <filesystem>
 #include <fstream>
