@@ -1,5 +1,6 @@
 # GAS-ssg
- Gus' Awesome SSG
+ Gus' Awesome SSG     
+ GAS-SSG is a static site generator that converts .txt or .md files into HTML.     
 #####################################################################################
 
 
