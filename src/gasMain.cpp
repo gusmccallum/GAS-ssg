@@ -1,5 +1,5 @@
 
-#include "gasHeader.hpp"
+#include "../include/gasHeader.hpp"
 
 int main(int argc, char **argv) {
 
@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
       std::cout << "*********************************\n"
                 << "*********************************\n"
                 << "****                         ****\n"
-                << "**** Gus' Awesome Ssg V0.9.0 ****\n"
+                << "**** Gus' Awesome Ssg V1.0.0 ****\n"
                 << "****                         ****\n"
                 << "*********************************\n"
                    "*********************************"

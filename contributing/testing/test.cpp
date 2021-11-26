@@ -1,6 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "gasHeader.hpp"
+#include "../../include/gasHeader.hpp"
+
 
 TEST_CASE("processText() Testing", "[processtext]") {
 	REQUIRE(processText("The Adventure of the Speckled Band.txt", 1) == true);

@@ -1,2 +1,2 @@
-clang-format -i ../gasHeader.hpp ../gasMain.cpp -style=file --verbose
+clang-format -i ../../include/gasHeader.hpp ../../src/gasMain.cpp -style=file --verbose
 PAUSE
