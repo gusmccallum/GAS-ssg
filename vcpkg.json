@@ -1,5 +1,5 @@
 {
   "name": "gasssg",
-  "version-string": "1.0.0",
+  "version-string": "1.0.2",
   "description": "GAS-SSG is a static site generator that converts .txt or .md files into HTML."
 }

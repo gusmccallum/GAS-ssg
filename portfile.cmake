@@ -1,7 +1,7 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO gusmccallum/GAS-ssg
-    REF v1.0.0
+    REF v1.0.2
     SHA512 0
     HEAD_REF master
 )
